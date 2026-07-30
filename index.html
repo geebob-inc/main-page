@@ -25,8 +25,15 @@ body{
   flex-direction:column;
 }
 
+.header-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
 h2{
-  margin-top:0;
+  margin: 0;
 }
 
 .input-area{
@@ -57,6 +64,24 @@ textarea{
 button{
   padding:10px 15px;
   cursor:pointer;
+  border-radius:4px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+button:hover {
+  background: #eee;
+}
+
+.print-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.print-btn:hover {
+  background: #0056b3;
 }
 
 .delete{
@@ -65,7 +90,10 @@ button{
   border:none;
   padding:6px 10px;
   cursor:pointer;
-  border-radius:4px;
+}
+
+.delete:hover {
+  background: darkred;
 }
 
 /* NOTES */
@@ -91,17 +119,39 @@ button{
   word-break:break-all;
 }
 
+/* PRINT STYLES */
+@media print {
+  body {
+    height: auto;
+  }
+  .main {
+    background: white;
+    padding: 0;
+  }
+  .input-area, 
+  .print-btn, 
+  .delete {
+    display: none !important; /* Hides these elements when printing */
+  }
+  .note {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    break-inside: avoid; /* Prevents notes from splitting across pages */
+  }
+}
+
 </style>
 </head>
 
 <body>
 
 
-<!-- MAIN -->
-
 <div class="main">
 
-<h2>🗒 Notes 🗒</h2>
+<div class="header-area">
+  <h2>🗒 Notes 🗒</h2>
+  <button class="print-btn" onclick="window.print()">🖨 Print Notes</button>
+</div>
 
 <div class="input-area">
 
@@ -115,6 +165,13 @@ placeholder="Write a note..."
 </div>
 
 <div id="notesList"></div>
+
+<p>
+<em><strong>
+©2026 by Geebob inc.
+</strong></em>
+<br>Thanks, God bless
+</p>
 
 </div>
 
@@ -207,13 +264,6 @@ function deleteNote(index){
 renderNotes();
 
 </script>
-
-<p>
-<em><strong>
-©2026 by Geebob inc.
-</strong></em>
-Thanks, God bless
-</p>
 
 </body>
 </html>
