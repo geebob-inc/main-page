@@ -2,268 +2,43 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Geebob notes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Print Button Example</title>
 
 <style>
-
-body{
-  margin:0;
-  font-family:sans-serif;
-  display:flex;
-  height:100vh;
-}
-
-
-
-/* MAIN */
-
-.main{
-  flex:1;
-  background:#f4f4f4;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-}
-
-.header-area {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-h2{
-  margin: 0;
-}
-
-.input-area{
-  display:flex;
-  gap:10px;
-  margin-bottom:15px;
-  align-items:flex-start;
-}
-
-/* TEXTAREA */
-
-textarea{
-  flex:1;
-  padding:10px;
-  min-height:100px;
-  resize:vertical;
-  font-size:16px;
-  font-family:sans-serif;
-
-  /* FORCE WRAP */
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-  word-break:break-all;
-}
-
-/* BUTTONS */
-
-button{
-  padding:10px 15px;
-  cursor:pointer;
-  border-radius:4px;
-  border: 1px solid #ccc;
-  background: white;
-}
-
-button:hover {
-  background: #eee;
-}
-
-.print-btn {
-  background: #007bff;
-  color: white;
-  border: none;
-  font-weight: bold;
-}
-
-.print-btn:hover {
-  background: #0056b3;
-}
-
-.delete{
-  background:red;
-  color:white;
-  border:none;
-  padding:6px 10px;
-  cursor:pointer;
-}
-
-.delete:hover {
-  background: darkred;
-}
-
-/* NOTES */
-
-.note{
-  background:white;
-  padding:12px;
-  margin:8px 0;
-  border-radius:6px;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:10px;
-  box-shadow:0 1px 3px rgba(0,0,0,0.1);
-}
-
-.note-text{
-  flex:1;
-
-  /* FORCE BREAKS NO MATTER WHAT */
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-  word-break:break-all;
-}
-
-/* PRINT STYLES */
-@media print {
-  body {
-    height: auto;
+  /* Styling to make the button look nice on the screen */
+  .print-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
   }
-  .main {
-    background: white;
-    padding: 0;
-  }
-  .input-area, 
-  .print-btn, 
-  .delete {
-    display: none !important; /* Hides these elements when printing */
-  }
-  .note {
-    box-shadow: none;
-    border: 1px solid #ccc;
-    break-inside: avoid; /* Prevents notes from splitting across pages */
-  }
-}
 
+  .print-btn:hover {
+    background-color: #0056b3;
+  }
+
+  /* PRINT RULES 
+    This tells the printer to hide the button and any other 
+    elements you don't want on the physical paper.
+  */
+  @media print {
+    .print-btn {
+      display: none !important;
+    }
+  }
 </style>
 </head>
-
 <body>
 
+  <h1>My Web Page</h1>
+  <p>This is a test page to show how the print button works. When you click the button below, this text will print, but the button itself will completely disappear from the paper!</p>
 
-<div class="main">
-
-<div class="header-area">
-  <h2>🗒 Notes 🗒</h2>
-  <button class="print-btn" onclick="window.print()">🖨 Print Notes</button>
-</div>
-
-<div class="input-area">
-
-<textarea
-id="noteInput"
-placeholder="Write a note..."
-></textarea>
-
-<button onclick="addNote()">Add</button>
-
-</div>
-
-<div id="notesList"></div>
-
-<p>
-<em><strong>
-©2026 by Geebob inc.
-</strong></em>
-<br>Thanks, God bless
-</p>
-
-</div>
-
-<script>
-
-// LOAD NOTES
-
-let notes =
-JSON.parse(localStorage.getItem("geebob_notes"))
-|| [];
-
-// SAVE NOTES
-
-function saveNotes(){
-
-  localStorage.setItem(
-    "geebob_notes",
-    JSON.stringify(notes)
-  );
-
-}
-
-// RENDER NOTES
-
-function renderNotes(){
-
-  const list =
-  document.getElementById("notesList");
-
-  list.innerHTML = "";
-
-  notes.forEach((note,index)=>{
-
-    const div =
-    document.createElement("div");
-
-    div.className = "note";
-
-    div.innerHTML = `
-      <div class="note-text">
-        ${note}
-      </div>
-
-      <button
-      class="delete"
-      onclick="deleteNote(${index})">
-      X
-      </button>
-    `;
-
-    list.appendChild(div);
-
-  });
-
-}
-
-// ADD NOTE
-
-function addNote(){
-
-  const input =
-  document.getElementById("noteInput");
-
-  if(!input.value.trim()) return;
-
-  notes.push(input.value);
-
-  input.value = "";
-
-  saveNotes();
-
-  renderNotes();
-
-}
-
-// DELETE NOTE
-
-function deleteNote(index){
-
-  notes.splice(index,1);
-
-  saveNotes();
-
-  renderNotes();
-
-}
-
-// START
-
-renderNotes();
-
-</script>
+  <button class="print-btn" onclick="window.print()">🖨 Print Page</button>
 
 </body>
 </html>
